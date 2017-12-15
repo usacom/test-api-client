@@ -33,17 +33,20 @@
         Weight: {{profile['weight']}}
       </li>
       <li class="list-group-item">
-        <img :src="'http://band2.dev/api/file/open?name='+profile['avatar']" style="width: 100%"/>
+        {{profile['avatar']}}
+      </li>
+      <li class="list-group-item" v-if="profile['avatar']">
+        <img :src="'https://clara-oswald-usa.com/api/file/open?name='+profile['avatar']" style="width: 100%"/>
         <!--Avatar: {{profile['avatar']}}-->
       </li>
     </ul>
   </div>
 </template>
 <script>
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
 
   export default {
-    mounted(){
+    mounted() {
 //      this.$store.dispatch('user/loadProfile');
     },
     computed: {

@@ -56,12 +56,11 @@
           <input type="text" class="form-control" v-model="profile['weight']">
         </div>
       </li>
-      <!--<li class="list-group-item">-->
-        <!--<img :src="'http://band2.dev/api/file/open?name='+profile['avatar']" style="width: 100%"/>-->
-        <!--Avatar: {{profile['avatar']}}-->
-      <!--</li>-->
+      <li class="list-group-item" v-if="profileOr['avatar']">
+        <img :src="'https://clara-oswald-usa.com/api/file/open?name='+profileOr['avatar']" style="width: 100%"/>
+      </li>
     </ul>
-    <button class="btn btn-primary btn-block" @click="save()">Save</button>
+    <button :disabled="disableBtnSave" :class="['btn btn-primary btn-block', {'disabled':disableBtnSave}]" @click="save()">Save</button>
   </div>
 </template>
 <script>
@@ -74,6 +73,7 @@
     },
     data () {
       return {
+        disableBtnSave: false,
         login: 'usa_com',
         password: 'test500500',
         profile: {
@@ -90,7 +90,12 @@
     },
     methods:{
       async save(){
-        await this.$store.dispatch('user/saveProfile', this.profile);
+        try{
+          this.disableBtnSave = true;
+          await this.$store.dispatch('user/saveProfile', this.profile);
+        }finally {
+          this.disableBtnSave = false;
+        }
       },
       genderLabel(item, isToggle){
         return item

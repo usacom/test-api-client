@@ -5,9 +5,9 @@
       <li class="list-group-item" v-for="item in friendList">
         <div class="row no-gutters">
           <div class="col-12 col-md-2">
-            <img v-if="item['avatar']" :src="'http://band2.dev/api/file/open?name='+item['avatar']" style="width: 100%"/>
+            <img v-if="item['avatar']" :src="'https://clara-oswald-usa.com/api/file/open?name='+item['avatar']" style="width: 100%"/>
           </div>
-          <div class="col-12 pl-0 pl-md-2 col-md-8">
+          <div class="col-12 pl-0 pl-md-2 col-md-6">
             <span v-if="item['nickname']">nickname: {{item['nickname']}} <br></span>
             <span v-if="item['name']">name: {{item['name']}}<br></span>
             <span v-if="item['last_name']">last name: {{item['last_name']}}<br></span>
@@ -17,6 +17,9 @@
             <span v-if="item['job']">job: {{item['job']}}<br></span>
             <span v-if="item['length']">length: {{item['length']}}<br></span>
             <span v-if="item['weight']">weight: {{item['weight']}}<br></span>
+          </div>
+          <div class="col-12 pl-0 pl-md-2 col-md-2">
+            <a href="#" @click.prevent="openPrivatDilaog(item.id)">Open dialog</a>
           </div>
         </div>
       </li>
@@ -28,13 +31,18 @@
 
   export default {
     mounted(){
-      this.$store.dispatch('friend/loadFriends');
     },
     computed: {
       ...mapState({
         token: state => state.user.token,
         friendList: state => state.friend.friendList,
       }),
-    }
+    },
+    methods: {
+      async openPrivatDilaog(id) {
+        const data = await this.$store.dispatch('messages/openDialogToUser', id);
+        this.$router.push({ name: 'deposit-details', params: { id: data.idDialog }});
+      },
+    },
   }
 </script>

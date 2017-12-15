@@ -1,5 +1,6 @@
 import 'babel-polyfill'
 import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap';
 import Vue from 'vue'
 import { sync } from 'vuex-router-sync'
 // import Notifications from 'vue-notification'

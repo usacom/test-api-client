@@ -12,12 +12,23 @@ const mutations = {
 };
 
 const actions = {
+  async logOut({state, dispatch, commit}){
+      api.user.logOut();
+      commit('login', '');
+      commit('token', '');
+      window.location.reload();
+  },
+  async signup({state, dispatch, commit}, data){
+    await api.user.register(data.login, data.email, data.password);
+    dispatch('login', {login: data.login, password: data.password});
+
+  },
   async login({state, dispatch, commit}, data){
     commit('login', data.login);
     try{
       await api.user.login(data.login, data.password);
       await dispatch('loadSession');
-      return true;
+      window.location.reload();
     }catch (e){
       console.error(e);
       return false;
@@ -29,7 +40,7 @@ const actions = {
         let profile = await api.user.profile();
         commit('profile', profile);
       }catch(e){
-        console.error(e);
+        console.error('profile load error', e);
       }
     }
   },
